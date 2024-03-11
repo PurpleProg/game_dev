@@ -25,9 +25,9 @@ class Game:
 		pygame.display.set_caption("Game")
 		pygame.display.set_icon(pygame.surface.Surface((10, 10)))
 
-		# setting up keys
-		self.keys = {
-			'ENTER': False,
+		# setting up pressed_pressed_keys
+		self.pressed_keys = {
+			'RETURN': False,
 			'ESCAPE': False
 		}
 
@@ -35,6 +35,10 @@ class Game:
 		# this is the main part of the code
 		self.get_delta_time()
 		self.get_events()
+
+		# to remove, debug feature
+		print(self.pressed_keys)
+
 		self.update()
 		self.render(self.screen)
 
@@ -51,21 +55,31 @@ class Game:
 				pygame.quit()
 				sys.exit()
 			if event.type == KEYDOWN:
-				if envent.key == K_ENTER:
-					self.keys['ENTER'] = True
-				if envent.key == K_ESC:
-					self.keys['ESCAPE'] = True
-
+				# ENTER = RETURN, it's the "entrer" key
+				if event.key == K_RETURN:
+					self.pressed_keys['RETURN'] = True
+				if event.key == K_ESCAPE:
+					self.pressed_keys['ESCAPE'] = True
+			if event.type == KEYUP:
+				if event.key == K_RETURN:
+					self.pressed_keys['RETURN'] = False
+				if event.key == K_ESCAPE:
+					self.pressed_keys['ESCAPE'] = False
 
 	def update(self):
-
-		self.stack[-1].update(self.delta_time, self.keys)
-
-		pygame.display.flip()
-		self.clock.tick(settings.FPS)
+		self.stack[-1].update(self.delta_time, self.pressed_keys)
 
 	def render(self, surface: pygame.Surface):
-		# test_surface = pygame.Surface((settings.WIDTH, settings.HEIGHT))
-		# test_surface.fill(color=(255, 255, 255))
-		# surface.blit(test_surface, dest=(0, 0))
+		# render the current state
 		self.stack[-1].render(self.screen)
+
+		# update the screen
+		pygame.display.flip()
+
+		# run at fixed FPS (well not exactly but there is delta_time for that)
+		self.clock.tick(settings.FPS)
+
+	def reset_pressed_pressed_keys(self):
+		print("reseting pressed_pressed_keys")
+		for key in self.pressed_keys.keys():
+			self.pressed_keys[key] = False
