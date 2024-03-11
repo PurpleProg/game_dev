@@ -2,7 +2,7 @@ class State:
     def __init__(self, game):
         self.game = game
 
-    def update(self, delta_time: float, keys: dict[str: bool]):
+    def update(self, delta_time: float, pressed_keys: dict[str: bool]):
         raise NotImplementedError
 
     def render(self, surface):
