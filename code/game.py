@@ -38,7 +38,6 @@ class Game:
 
 		# to remove, debug feature
 		# print(self.pressed_keys)
-		print(self.stack)
 
 		self.update()
 		self.render(self.screen)

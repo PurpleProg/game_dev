@@ -1,7 +1,7 @@
 import pygame
 import settings
 from states.state import State
-from states.maingame import MainGame
+from states.gameworld import GameWorld
 
 
 class Title(State):
@@ -15,7 +15,7 @@ class Title(State):
 		pygame.display.set_caption("Game - Title screen")
 
 		if pressed_keys['RETURN']:
-			new_state = MainGame(self.game)
+			new_state = GameWorld(self.game)
 			new_state.enter_state()
 
 	def render(self, surface):

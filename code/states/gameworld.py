@@ -3,7 +3,7 @@ import settings
 from states.state import State
 
 
-class MainGame(State):
+class GameWorld(State):
     def __init__(self, game):
         super().__init__(game)
         self.game = game
