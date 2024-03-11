@@ -1,0 +1,1 @@
+# empty player class
