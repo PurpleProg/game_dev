@@ -25,7 +25,7 @@ class Game:
 		pygame.display.set_caption("Game")
 		pygame.display.set_icon(pygame.surface.Surface((10, 10)))
 
-		# setting up pressed_pressed_keys
+		# setting up pressed_keys
 		self.pressed_keys = {
 			'RETURN': False,
 			'ESCAPE': False
@@ -79,7 +79,7 @@ class Game:
 		# run at fixed FPS (well not exactly but there is delta_time for that)
 		self.clock.tick(settings.FPS)
 
-	def reset_pressed_pressed_keys(self):
-		print("reseting pressed_pressed_keys")
+	def reset_pressed_keys(self):
+		print("reseting pressed_keys")
 		for key in self.pressed_keys.keys():
 			self.pressed_keys[key] = False

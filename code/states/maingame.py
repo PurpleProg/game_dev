@@ -8,13 +8,13 @@ class MainGame(State):
         super().__init__(game)
         self.game = game
 
-    def update(self, delta_time: float, pressed_pressed_keys: dict[str: bool]):
+    def update(self, delta_time: float, pressed_keys: dict[str: bool]):
 
         # to remove, this is call every frame ( = not good)
         pygame.display.set_caption("Game - Main Game world screen")
 
-        if pressed_pressed_keys['ESCAPE']:
-            self.game.reset_pressed_pressed_keys()
+        if pressed_keys['ESCAPE']:
+            self.game.reset_pressed_keys()
             self.exit_state()
 
     def render(self, surface: pygame.Surface):
