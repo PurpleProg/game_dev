@@ -14,7 +14,7 @@ class Title(State):
 		# to remove, this is call every frame ( = not good)
 		pygame.display.set_caption("Game - Title screen")
 
-		if self.game.pressed_keys['RETURN']:
+		if pressed_keys['RETURN']:
 			new_state = MainGame(self.game)
 			new_state.enter_state()
 

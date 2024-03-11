@@ -13,7 +13,7 @@ class Game:
 		# states manager stack
 		self.stack = []
 		self.title_screen = Title(self)
-		self.stack.append(self.title_screen)
+		self.title_screen.enter_state()
 
 		# delta time related stuff
 		self.clock = pygame.time.Clock()
@@ -37,7 +37,8 @@ class Game:
 		self.get_events()
 
 		# to remove, debug feature
-		print(self.pressed_keys)
+		# print(self.pressed_keys)
+		print(self.stack)
 
 		self.update()
 		self.render(self.screen)
