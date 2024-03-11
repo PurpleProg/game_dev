@@ -1,3 +1,2 @@
 WIDTH, HEIGHT = 1080, 500
 FPS = 60
-#ook
