@@ -1,28 +1,19 @@
 import pygame
 import settings
 
-class Player():
-    def __init__(self):
-        self.image = pygame.image.load("../assets/character.png")
-        self.x = 100
-        self.y = 100
-        self.speed = settings.SPEED
-        self.direction_x = 0
-        self.direction_y = 0
 
-    def draw(self, screen):
-        screen.blit(self.image, (self.x, self.y))
+class Player:
+    def __init__(self, pos: tuple[int, int]):
+        self.image = pygame.image.load("../assets/character.png")
+        self.pos = pygame.math.Vector2(pos)
+        self.speed = settings.SPEED
+        self.direction = pygame.math.Vector2(0, 0)
+        
+    def render(self, surface: pygame.Surface):
+        surface.blit(self.image, self.pos)
 
     def move_x(self, dt: float, ):
-        if self.direction_x != 0:
-            if self.direction_y !=0:
-                self.x += self.direction_x * self.speed*0.75 * dt 
-            else:
-                self.x += self.direction_x * self.speed * dt 
+        self.pos.x += self.direction.x * self.speed * dt
 
     def move_y(self, dt: float):
-        if self.direction_y != 0:
-            if self.direction_x !=0:
-                self.y += self.direction_y * self.speed*0.75 * dt 
-            else:
-                self.y += self.direction_y * self.speed * dt 
+        self.pos.y += self.direction.y * self.speed * dt
