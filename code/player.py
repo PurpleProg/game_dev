@@ -1,12 +1,12 @@
 import pygame
-from settings import *
+import settings
 
 class Player():
     def __init__(self):
-        self.image = pygame.image.load("character.png")
+        self.image = pygame.image.load("../assets/character.png")
         self.x = 100
         self.y = 100
-        self.speed = SPEED
+        self.speed = settings.SPEED
         self.direction_x = 0
         self.direction_y = 0
 
