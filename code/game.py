@@ -28,18 +28,17 @@ class Game:
 		# setting up pressed_keys
 		self.pressed_keys = {
 			'RETURN': False,
-			'ESCAPE': False
+			'ESCAPE': False,
+			'UP': False,
+			'DOWN': False,
+			'RIGHT': False,
+			'LEFT': False,
 		}
 
 	def main_loop(self):
 		# this is the main part of the code
 		self.get_delta_time()
 		self.get_events()
-
-		# to remove, debug feature
-		# print(self.pressed_keys)
-		print(self.stack)
-
 		self.update()
 		self.render(self.screen)
 
@@ -61,13 +60,30 @@ class Game:
 					self.pressed_keys['RETURN'] = True
 				if event.key == K_ESCAPE:
 					self.pressed_keys['ESCAPE'] = True
+				if event.key == K_UP:
+					self.pressed_keys['UP'] = True
+				if event.key == K_DOWN:
+					self.pressed_keys['DOWN'] = True
+				if event.key == K_RIGHT:
+					self.pressed_keys['RIGHT'] = True
+				if event.key == K_LEFT:
+					self.pressed_keys['LEFT'] = True
 			if event.type == KEYUP:
 				if event.key == K_RETURN:
 					self.pressed_keys['RETURN'] = False
 				if event.key == K_ESCAPE:
 					self.pressed_keys['ESCAPE'] = False
+				if event.key == K_UP:
+					self.pressed_keys['UP'] = False
+				if event.key == K_DOWN:
+					self.pressed_keys['DOWN'] = False
+				if event.key == K_RIGHT:
+					self.pressed_keys['RIGHT'] = False
+				if event.key == K_LEFT:
+					self.pressed_keys['LEFT'] = False
 
 	def update(self):
+		# run the update fonction of the last state of the stack
 		self.stack[-1].update(self.delta_time, self.pressed_keys)
 
 	def render(self, surface: pygame.Surface):
@@ -77,10 +93,9 @@ class Game:
 		# update the screen
 		pygame.display.flip()
 
-		# run at fixed FPS (well not exactly but there is delta_time for that)
+		# run at fixed FPS (well not exactly but there is delta_time for the lags)
 		self.clock.tick(settings.FPS)
 
 	def reset_pressed_keys(self):
-		print("reseting pressed_keys")
 		for key in self.pressed_keys.keys():
 			self.pressed_keys[key] = False
