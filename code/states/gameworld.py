@@ -14,20 +14,21 @@ class GameWorld(State):
 
         # to remove, this is call every frame ( = not good)
         pygame.display.set_caption("Game - Main Game world screen")
-        
-        # update player
-        self.player.move_x(1)
-        self.player.move_y(1)
+
+        self.player.update(pressed_keys)
 
         if pressed_keys['ESCAPE']:
             self.game.reset_pressed_keys()
             self.exit_state()
+        
+        if pressed_keys['UP'] or pressed_keys['DOWN']:
+            self.player.move_y(delta_time)
+        if pressed_keys['RIGHT'] or pressed_keys['LEFT']:
+            self.player.move_x(delta_time)
 
     def render(self, surface: pygame.Surface):
 
-        temp_maingame_surface = pygame.Surface((settings.WIDTH, settings.HEIGHT))
-        temp_maingame_surface.fill(color=(0, 255, 0))
-        surface.blit(temp_maingame_surface, dest=(0, 0))
+        surface.fill(color=(0, 255, 0))
 
         # render the player
         self.player.render(surface)        

@@ -28,7 +28,11 @@ class Game:
 		# setting up pressed_keys
 		self.pressed_keys = {
 			'RETURN': False,
-			'ESCAPE': False
+			'ESCAPE': False,
+			'UP': False,
+			'DOWN': False,
+			'RIGHT': False,
+			'LEFT': False,
 		}
 
 	def main_loop(self):
@@ -60,11 +64,27 @@ class Game:
 					self.pressed_keys['RETURN'] = True
 				if event.key == K_ESCAPE:
 					self.pressed_keys['ESCAPE'] = True
+				if event.key == K_UP:
+					self.pressed_keys['UP'] = True
+				if event.key == K_DOWN:
+					self.pressed_keys['DOWN'] = True
+				if event.key == K_RIGHT:
+					self.pressed_keys['RIGHT'] = True
+				if event.key == K_LEFT:
+					self.pressed_keys['LEFT'] = True
 			if event.type == KEYUP:
 				if event.key == K_RETURN:
 					self.pressed_keys['RETURN'] = False
 				if event.key == K_ESCAPE:
 					self.pressed_keys['ESCAPE'] = False
+				if event.key == K_UP:
+					self.pressed_keys['UP'] = False
+				if event.key == K_DOWN:
+					self.pressed_keys['DOWN'] = False
+				if event.key == K_RIGHT:
+					self.pressed_keys['RIGHT'] = False
+				if event.key == K_LEFT:
+					self.pressed_keys['LEFT'] = False
 
 	def update(self):
 		self.stack[-1].update(self.delta_time, self.pressed_keys)
