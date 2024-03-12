@@ -39,10 +39,6 @@ class Game:
 		# this is the main part of the code
 		self.get_delta_time()
 		self.get_events()
-
-		# to remove, debug feature
-		# print(self.pressed_keys)
-
 		self.update()
 		self.render(self.screen)
 
@@ -87,6 +83,7 @@ class Game:
 					self.pressed_keys['LEFT'] = False
 
 	def update(self):
+		# run the update fonction of the last state of the stack
 		self.stack[-1].update(self.delta_time, self.pressed_keys)
 
 	def render(self, surface: pygame.Surface):
@@ -96,7 +93,7 @@ class Game:
 		# update the screen
 		pygame.display.flip()
 
-		# run at fixed FPS (well not exactly but there is delta_time for that)
+		# run at fixed FPS (well not exactly but there is delta_time for the lags)
 		self.clock.tick(settings.FPS)
 
 	def reset_pressed_keys(self):
