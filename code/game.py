@@ -97,6 +97,5 @@ class Game:
 		self.clock.tick(settings.FPS)
 
 	def reset_pressed_keys(self):
-		print("reseting pressed_keys")
 		for key in self.pressed_keys.keys():
 			self.pressed_keys[key] = False

@@ -1,6 +1,7 @@
 import pygame
 import settings
 from states.state import State
+from states.pause import Pause
 from player import Player
 
 
@@ -12,14 +13,15 @@ class GameWorld(State):
 
     def update(self, delta_time: float, pressed_keys: dict[str: bool]):
 
-        # to remove, this is call every frame ( = not good)
+        # this is done every frame (=not good for perf), pls fix it
         pygame.display.set_caption("Game - Main Game world screen")
 
         self.player.update(pressed_keys)
 
         if pressed_keys['ESCAPE']:
             self.game.reset_pressed_keys()
-            self.exit_state()
+            new_state = Pause(self.game)
+            new_state.enter_state()
         
         if pressed_keys['UP'] or pressed_keys['DOWN']:
             self.player.move_y(delta_time)
