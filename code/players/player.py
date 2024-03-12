@@ -3,14 +3,25 @@ import settings
 
 
 class Player:
+    """ parent class of all main characters """
     def __init__(self, pos: tuple[int, int]):
-        self.image = pygame.image.load("../assets/character.png")
         self.pos = pygame.math.Vector2(pos)
-        self.speed = pygame.Vector2(settings.SPEED, settings.SPEED)
         self.direction = pygame.math.Vector2(0, 0)
         self.movement = pygame.math.Vector2(0, 0)
 
+        # specific to each character
+        # self.image = pygame.image.load("../assets/character.png")
+        self.speed = pygame.Vector2(settings.SPEED, settings.SPEED)
+
     def update(self, pressed_keys: dict[str: bool]):
+        
+        self.get_direction(pressed_keys)
+
+        # fix diagonal movement
+        if self.direction.length() > 1:
+            self.direction.normalize()
+
+    def get_direction(self, pressed_keys: dict[str: bool]):
         if pressed_keys['UP']:
             self.direction.y = -1
         elif pressed_keys['DOWN']:
@@ -25,9 +36,6 @@ class Player:
         else:
             self.direction.x = 0
 
-        # fix diagonal movement
-        if self.direction.length() > 1:
-            self.direction.normalize()
 
     def move_x(self, dt: float, ):
         self.movement.x = self.direction.x * self.speed.x # * dt

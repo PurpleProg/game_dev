@@ -2,14 +2,14 @@ import pygame
 import settings
 from states.state import State
 from states.pause import Pause
-from player import Player
+from players.test_player import Test_player
 
 
 class GameWorld(State):
     def __init__(self, game):
         super().__init__(game)
         self.game = game
-        self.player = Player(pos=(100, 100))
+        self.player = Test_player(tuple((100, 100)))
 
     def update(self, delta_time: float, pressed_keys: dict[str: bool]):
 
@@ -28,6 +28,7 @@ class GameWorld(State):
         if pressed_keys['RIGHT'] or pressed_keys['LEFT']:
             self.player.move_x(delta_time)
 
+        # normalize diagonal movement
         if self.player.movement.length() > 1:
             self.player.movement.normalize()
 
