@@ -28,10 +28,6 @@ class GameWorld(State):
         if pressed_keys['RIGHT'] or pressed_keys['LEFT']:
             self.player.move_x(delta_time)
 
-        # normalize diagonal movement
-        if self.player.movement.length() > 1:
-            self.player.movement.normalize()
-
     def render(self, surface: pygame.Surface):
 
         surface.fill(color=(0, 255, 0))

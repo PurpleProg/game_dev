@@ -2,15 +2,20 @@ import pygame
 import settings
 
 
-class Player:
+class Player(pygame.sprite.Sprite):
     """ parent class of all main characters """
     def __init__(self, pos: tuple[int, int]):
-        self.pos = pygame.math.Vector2(pos)
+        super().__init__()
+        # self.pos = pygame.math.Vector2(pos)    # let's just use rect.center instead
         self.direction = pygame.math.Vector2(0, 0)
         self.movement = pygame.math.Vector2(0, 0)
 
-        # specific to each character
-        # self.image = pygame.image.load("../assets/character.png")
+        # default values are overwrite by each character
+        self.image = pygame.Surface(size=(32, 32))
+        self.image.fill(color=(255, 0, 0))
+        self.rect = self.image.get_rect(center=pos)
+        print(self.rect.centerx)
+
         self.speed = pygame.Vector2(settings.SPEED, settings.SPEED)
 
     def update(self, pressed_keys: dict[str: bool]):
@@ -36,14 +41,13 @@ class Player:
         else:
             self.direction.x = 0
 
-
     def move_x(self, dt: float, ):
-        self.movement.x = self.direction.x * self.speed.x # * dt
+        self.movement.x = self.direction.x * self.speed.x  # * dt
 
     def move_y(self, dt: float):
-        self.movement.y = self.direction.y * self.speed.y # * dt
+        self.movement.y = self.direction.y * self.speed.y  # * dt
 
     def render(self, surface: pygame.Surface):
-        self.pos += self.movement
+        self.rect.center += self.movement
         self.movement.xy = (0, 0)
-        surface.blit(source=self.image, dest=self.pos)
+        surface.blit(source=self.image, dest=self.rect.center)
