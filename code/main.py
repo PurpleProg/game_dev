@@ -4,4 +4,5 @@ if __name__ == "__main__":
 	game = Game()
 	while game.running:
 		game.main_loop()
-pressed_keys: dict[str: bool]
+
+test: list[int] = ['a', 1, 'v', 2]
