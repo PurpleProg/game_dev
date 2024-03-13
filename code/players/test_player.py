@@ -4,7 +4,7 @@ from players.player import Player
 
 
 class Test_player(Player):
-	def __init__(self, pos: tuple[int, int]):
+	def __init__(self, pos: tuple[int, int]) -> None:
 		super().__init__(pos)
 
 		# stats de base

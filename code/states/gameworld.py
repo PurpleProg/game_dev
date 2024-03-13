@@ -6,12 +6,12 @@ from players.test_player import Test_player
 
 
 class GameWorld(State):
-    def __init__(self, game):
+    def __init__(self, game) -> None:
         super().__init__(game)
         self.game = game
         self.player = Test_player(tuple((100, 100)))
 
-    def update(self, delta_time: float, pressed_keys: dict[str: bool]):
+    def update(self, delta_time: float, pressed_keys: dict[str: bool]) -> None:
 
         # this is done every frame (=not good for perf), pls fix it
         pygame.display.set_caption("Game - Main Game world screen")
@@ -28,7 +28,7 @@ class GameWorld(State):
         if pressed_keys['RIGHT'] or pressed_keys['LEFT']:
             self.player.move_x(delta_time)
 
-    def render(self, surface: pygame.Surface):
+    def render(self, surface: pygame.Surface) -> None:
 
         surface.fill(color=(0, 255, 0))
 

@@ -5,11 +5,11 @@ from states.gameworld import GameWorld
 
 
 class Title(State):
-	def __init__(self, game):
+	def __init__(self, game) -> None:
 		super().__init__(game)
 		self.game = game
 
-	def update(self, delta_time: float, pressed_keys: dict[str: bool]):
+	def update(self, delta_time: float, pressed_keys: dict[str: bool]) -> None:
 
 		# to remove, this is call every frame ( = not good)
 		pygame.display.set_caption("Game - Title screen")
@@ -18,5 +18,5 @@ class Title(State):
 			new_state = GameWorld(self.game)
 			new_state.enter_state()
 
-	def render(self, surface):
+	def render(self, surface) -> None:
 		surface.fill(color=(0, 0, 255))

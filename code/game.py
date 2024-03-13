@@ -5,7 +5,7 @@ from states.title import Title
 
 
 class Game:
-	def __init__(self):
+	def __init__(self) -> None:
 		pygame.init()
 		self.running = True
 		self.playing = False
@@ -35,19 +35,19 @@ class Game:
 			'LEFT': False,
 		}
 
-	def main_loop(self):
+	def main_loop(self) -> None:
 		# this is the main part of the code
 		self.get_delta_time()
 		self.get_events()
 		self.update()
 		self.render(self.screen)
 
-	def get_delta_time(self):
+	def get_delta_time(self) -> None:
 		now = time.time()
 		self.delta_time = now - self.last_time
 		self.last_time = now
 
-	def get_events(self):
+	def get_events(self) -> None:
 		for event in pygame.event.get():
 			if event.type == QUIT:
 				self.playing = False
@@ -82,11 +82,11 @@ class Game:
 				if event.key == K_LEFT:
 					self.pressed_keys['LEFT'] = False
 
-	def update(self):
+	def update(self) -> None:
 		# run the update fonction of the last state of the stack
 		self.stack[-1].update(self.delta_time, self.pressed_keys)
 
-	def render(self, surface: pygame.Surface):
+	def render(self, surface: pygame.Surface) -> None:
 		# render the current state
 		self.stack[-1].render(self.screen)
 
@@ -96,6 +96,6 @@ class Game:
 		# run at fixed FPS (well not exactly but there is delta_time for the lags)
 		self.clock.tick(settings.FPS)
 
-	def reset_pressed_keys(self):
+	def reset_pressed_keys(self) -> None:
 		for key in self.pressed_keys.keys():
 			self.pressed_keys[key] = False
