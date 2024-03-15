@@ -40,12 +40,12 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = 0
 
     def move_x(self, dt: float, ) -> None:
-        self.movement.x = self.direction.x * self.speed.x  # * dt
+        self.movement.x = self.direction.x * self.speed.x * (dt * 100)
 
     def move_y(self, dt: float) -> None:
-        self.movement.y = self.direction.y * self.speed.y  # * dt
+        self.movement.y = self.direction.y * self.speed.y * (dt * 100)
 
-    def render(self, surface: pygame.Surface) -> None:
+    def render(self, canvas: pygame.Surface) -> None:
         self.rect.center += self.movement
         self.movement.xy = (0, 0)
-        surface.blit(source=self.image, dest=self.rect.center)
+        canvas.blit(source=self.image, dest=self.rect.center)

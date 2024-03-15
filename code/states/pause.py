@@ -2,6 +2,7 @@ import pygame
 from settings import *
 from states.state import State
 
+
 class Pause(State):
 	def __init__(self, game) -> None:
 		super().__init__(game)
@@ -14,6 +15,6 @@ class Pause(State):
 			self.game.reset_pressed_keys()
 			self.exit_state()
 
-	def render(self, surface: pygame.Surface) -> None:
-		surface.fill(color=(255, 255, 0)) # yellow
+	def render(self, canvas: pygame.Surface) -> None:
+		canvas.fill(color=(255, 255, 0)) # yellow
 

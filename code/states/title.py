@@ -18,5 +18,5 @@ class Title(State):
 			new_state = GameWorld(self.game)
 			new_state.enter_state()
 
-	def render(self, surface) -> None:
-		surface.fill(color=(0, 0, 255))
+	def render(self, canvas: pygame.Surface) -> None:
+		canvas.fill(color=(0, 0, 255))
