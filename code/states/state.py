@@ -5,7 +5,7 @@ class State:
     def __init__(self, game) -> None:
         self.game = game
 
-    def update(self, delta_time: float, pressed_keys: dict[str: bool]) -> None:
+    def update(self, delta_time: float, pressed_keys: dict[str, bool]) -> None:
         raise NotImplementedError
 
     def render(self, canvas: pygame.Surface) -> None:

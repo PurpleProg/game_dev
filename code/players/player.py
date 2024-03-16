@@ -4,8 +4,9 @@ import settings
 
 class Player(pygame.sprite.Sprite):
     """ parent class of all main characters """
-    def __init__(self, pos: tuple[int, int]) -> None:
+    def __init__(self, game,  pos: tuple[int, int]) -> None:
         super().__init__()
+        self.game = game
         # self.pos = pygame.math.Vector2(pos)    # let's just use rect.center instead
         self.direction = pygame.math.Vector2(0, 0)
         self.movement = pygame.math.Vector2(0, 0)
@@ -16,15 +17,10 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=pos)
         self.speed = pygame.Vector2(settings.SPEED, settings.SPEED)
 
-    def update(self, pressed_keys: dict[str: bool]) -> None:
-        
+    def update(self, pressed_keys: dict[str, bool]) -> None:
         self.get_direction(pressed_keys)
 
-        # fix diagonal movement
-        if self.direction.length() > 1:
-            self.direction.normalize()
-
-    def get_direction(self, pressed_keys: dict[str: bool]) -> None:
+    def get_direction(self, pressed_keys: dict[str, bool]) -> None:
         if pressed_keys['UP']:
             self.direction.y = -1
         elif pressed_keys['DOWN']:
@@ -39,6 +35,10 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
 
+        # fix diagonal movement
+        if self.direction.length() > 1:
+            self.direction = self.direction.normalize()
+
     def move_x(self, dt: float, ) -> None:
         self.movement.x = self.direction.x * self.speed.x * (dt * 100)
 
@@ -47,5 +47,9 @@ class Player(pygame.sprite.Sprite):
 
     def render(self, canvas: pygame.Surface) -> None:
         self.rect.center += self.movement
-        self.movement.xy = (0, 0)
+
+        self.game.debug(self.direction, self.game.canvas, pos=(100, 10))
+        self.game.debug(self.direction.length(), self.game.canvas, pos=(100, 40))
+
+        self.movement = pygame.math.Vector2(0, 0)
         canvas.blit(source=self.image, dest=self.rect.center)

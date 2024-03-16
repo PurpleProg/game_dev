@@ -9,7 +9,7 @@ class Title(State):
 		super().__init__(game)
 		self.game = game
 
-	def update(self, delta_time: float, pressed_keys: dict[str: bool]) -> None:
+	def update(self, delta_time: float, pressed_keys: dict[str, bool]) -> None:
 
 		# to remove, this is call every frame ( = not good)
 		pygame.display.set_caption("Game - Title screen")

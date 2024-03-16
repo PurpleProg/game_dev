@@ -1,6 +1,7 @@
 import pygame, sys, time, os
 import settings
 from states.title import Title
+from states.state import State
 
 
 class Game:
@@ -10,7 +11,7 @@ class Game:
 		self.playing = False
 
 		# states manager stack
-		self.stack = []
+		self.stack: list[State] = []
 		self.title_screen = Title(self)
 		self.title_screen.enter_state()
 
@@ -46,12 +47,6 @@ class Game:
 		self.get_delta_time()
 		self.get_events()
 		self.update()
-		
-		self.count_temp += 1
-		if self.count_temp > settings.FPS:
-			print(round(1/self.delta_time))
-			self.count_temp = 0
-
 		self.render()
 
 	def get_delta_time(self) -> None:
@@ -103,16 +98,20 @@ class Game:
 
 	def update(self) -> None:
 		# run the update fonction of the last state of the stack
-
-		if self.pressed_keys['f']:
-			settings.FPS = 10 if settings.FPS == 60 else 60
-
 		self.stack[-1].update(self.delta_time, self.pressed_keys)
+
+		# debug framerate
+		if self.pressed_keys['f']:
+			settings.FPS = 5 if settings.FPS == 60 else 60
+			self.reset_pressed_keys()
 
 	def render(self) -> None:
 		# render the current state
 		self.stack[-1].render(self.canvas)
 		self.screen.blit(self.canvas, dest=(0, 0))
+
+		# debug franerate
+		self.debug(round(1/self.delta_time), self.screen)
 
 		# update the screen
 		pygame.display.flip()
@@ -124,3 +123,19 @@ class Game:
 	def reset_pressed_keys(self) -> None:
 		for key in self.pressed_keys.keys():
 			self.pressed_keys[key] = False
+
+	def debug(self, var: any, surface: pygame.Surface, pos: tuple[int, int]=(10, 10)) -> None:
+	    """show a variable on the screen"""
+	    font = pygame.font.Font(pygame.font.get_default_font(), 30)
+	    text = font.render(str(var), False, (255, 255, 255))
+
+	    # creating a black background of the right size
+	    surf = pygame.Surface(text.get_size())
+	    surf.fill((0, 0, 0))
+
+	    # adding the text on the background
+	    surf.blit(text, (0, 0))
+
+	    # showing the result of all of the above on the screen
+	    surface.blit(surf, pos)
+

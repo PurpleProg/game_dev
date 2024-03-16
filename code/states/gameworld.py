@@ -9,9 +9,9 @@ class GameWorld(State):
     def __init__(self, game) -> None:
         super().__init__(game)
         self.game = game
-        self.player = Test_player(tuple((100, 100)))
+        self.player = Test_player(self.game, pos=(100, 100))
 
-    def update(self, delta_time: float, pressed_keys: dict[str: bool]) -> None:
+    def update(self, delta_time: float, pressed_keys: dict[str,  bool]) -> None:
 
         # this is done every frame (=not good for perf), pls fix it
         pygame.display.set_caption("Game - Main Game world screen")
