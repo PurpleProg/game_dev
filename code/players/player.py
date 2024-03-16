@@ -12,8 +12,8 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2(0, 0)
         self.velocity = pygame.math.Vector2(0, 0)
         self.acceleration = pygame.math.Vector2(0, 0)  # the value used in the calculs
-        self.ACCELERATION = pygame.math.Vector2(.4, .4)  # stat
-        self.friction = -.08
+        self.ACCELERATION = pygame.math.Vector2(1.05, .4)  # stat
+        self.friction = .8
 
         # default values are overwrite by each character
         self.image = pygame.Surface(size=(32, 32))
@@ -52,32 +52,31 @@ class Player(pygame.sprite.Sprite):
         if self.direction.length() > 1:
             self.direction = self.direction.normalize()
 
-    def move_x(self, dt: float, ) -> None:
-        dt = (dt * settings.FIXED_FPS)
-        self.acceleration.x += self.velocity.x * self.friction
-        self.velocity.x += self.acceleration.x * dt
-        self.limit_x_vel(self.speed.x)
-        self.position.x += self.velocity.x * dt + self.acceleration.x * dt 
+    def move_x(self, dt: float) -> None:
+        self.velocity.x += self.speed.x * self.direction.x + self.acceleration.x
+        self.velocity.x *= self.friction
+        self.limit_x_vel()
+        self.position.x += self.velocity.x * dt
         self.rect.x = self.position.x
 
-
     def move_y(self, dt: float) -> None:
-        dt = (dt * settings.FIXED_FPS)
-        self.acceleration.y += self.velocity.y * self.friction
-        self.velocity.y += self.acceleration.y * dt
-        self.limit_y_vel(self.speed.y)
-        self.position.y += self.velocity.y * dt + (self.acceleration.y * .5) * (dt * dt)
+        self.velocity.y += self.speed.y * self.direction.y + self.acceleration.y
+        self.velocity.y *= self.friction
+        self.limit_y_vel()
+        self.position.y += self.velocity.y * dt
         self.rect.y = self.position.y
 
-    def limit_x_vel(self, max_vel: int) -> None:
-        # min(-max_vel, max(self.velocity.x, max_vel))
-        if abs(self.velocity.x) < .1 : self.velocity.x = 0
+    def limit_x_vel(self) -> None:
+        if abs(self.velocity.x) < .1 :
+            self.velocity.x = 0
+        if abs(self.velocity.x) > settings.MAX_VELOCITY:
+            self.velocity.x = settings.MAX_VELOCITY if self.velocity.x > 0 else -settings.MAX_VELOCITY
 
-    def limit_y_vel(self, max_vel: int) -> None:
-        min(-max_vel, max(self.velocity.y, max_vel))  # idk wtf is this line doing
+    def limit_y_vel(self) -> None:
         if abs(self.velocity.y) < .1:
             self.velocity.y = 0
+        if abs(self.velocity.y) > settings.MAX_VELOCITY:
+            self.velocity.y = settings.MAX_VELOCITY if self.velocity.y > 0 else -settings.MAX_VELOCITY
 
     def render(self, canvas: pygame.Surface) -> None:
-        self.game.debug(self.velocity, canvas, pos=(10, 50))
         canvas.blit(source=self.image, dest=self.rect.center)

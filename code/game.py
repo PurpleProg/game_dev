@@ -102,7 +102,7 @@ class Game:
 
         # debug framerate
         if self.pressed_keys['f']:
-            settings.FPS = 10 if settings.FPS == 60 else 60
+            settings.FPS = 30 if settings.FPS == 60 else 60
             # self.reset_pressed_keys()
             self.pressed_keys['f'] = False
 
@@ -112,7 +112,7 @@ class Game:
         self.screen.blit(self.canvas, dest=(0, 0))
 
         # debug franerate
-        self.debug(round(1/self.delta_time), self.screen, pos=(500, 10))
+        self.debug(f'FPS : {round(1/self.delta_time)}', self.screen, pos=(500, 10))
 
         # update the screen
         pygame.display.flip()
