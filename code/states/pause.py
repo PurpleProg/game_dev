@@ -17,4 +17,3 @@ class Pause(State):
 
 	def render(self, canvas: pygame.Surface) -> None:
 		canvas.fill(color=(255, 255, 0)) # yellow
-

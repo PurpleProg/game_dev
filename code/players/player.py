@@ -47,9 +47,5 @@ class Player(pygame.sprite.Sprite):
 
     def render(self, canvas: pygame.Surface) -> None:
         self.rect.center += self.movement
-
-        self.game.debug(self.direction, self.game.canvas, pos=(100, 10))
-        self.game.debug(self.direction.length(), self.game.canvas, pos=(100, 40))
-
         self.movement = pygame.math.Vector2(0, 0)
         canvas.blit(source=self.image, dest=self.rect.center)

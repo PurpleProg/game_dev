@@ -3,6 +3,7 @@ import settings
 from states.state import State
 from states.pause import Pause
 from players.test_player import Test_player
+from levels.level_1 import Level_1
 
 
 class GameWorld(State):
@@ -10,6 +11,7 @@ class GameWorld(State):
         super().__init__(game)
         self.game = game
         self.player = Test_player(self.game, pos=(100, 100))
+        self.level = Level_1(game)
 
     def update(self, delta_time: float, pressed_keys: dict[str,  bool]) -> None:
 
@@ -33,6 +35,10 @@ class GameWorld(State):
 
     def render(self, canvas: pygame.Surface) -> None:
         canvas.fill(color=(0, 255, 0))
+
+        self.level.render(canvas)
+
+        self.game.debug(self.player.rect.center, canvas, pos=(500, 50))
 
         # render the player
         self.player.render(canvas)        
