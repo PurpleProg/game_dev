@@ -102,8 +102,9 @@ class Game:
 
         # debug framerate
         if self.pressed_keys['f']:
-            settings.FPS = 5 if settings.FPS == 60 else 60
-            self.reset_pressed_keys()
+            settings.FPS = 10 if settings.FPS == 60 else 60
+            # self.reset_pressed_keys()
+            self.pressed_keys['f'] = False
 
     def render(self) -> None:
         # render the current state
