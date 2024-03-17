@@ -4,5 +4,5 @@ FIXED_FPS = 60  # NEVER change that value otherwise the framerate independence b
 TILE_SIZE = 16
 
 # players
-SPEED = 200
+SPEED = 100
 MAX_VELOCITY = 300
