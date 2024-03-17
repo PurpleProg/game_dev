@@ -28,13 +28,15 @@ class GameWorld(State):
             new_state.enter_state()
         
         # player movement
-        if pressed_keys['UP'] or pressed_keys['DOWN']:
-            self.player.move_y(delta_time)
-        if pressed_keys['RIGHT'] or pressed_keys['LEFT']:
-            self.player.move_x(delta_time)
+        # if pressed_keys['UP'] or pressed_keys['DOWN']:
+        #     self.player.move_y(delta_time)
+        # if pressed_keys['RIGHT'] or pressed_keys['LEFT']:
+        #     self.player.move_x(delta_time)
 
 
         # collisions (im gonna cry this shit is so fucking hard)
+
+        
 
 
 
@@ -44,7 +46,8 @@ class GameWorld(State):
 
         self.level.render(canvas)
 
-        self.game.debug(self.player.rect.center, canvas, pos=(500, 50))
+        self.game.debug(self.player.position, canvas, pos=(500, 50))
+        self.game.debug(self.player.rect.topleft, canvas, pos=(500, 80))
 
         # render the player
         self.player.render(canvas)        
