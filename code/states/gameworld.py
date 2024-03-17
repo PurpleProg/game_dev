@@ -19,7 +19,7 @@ class GameWorld(State):
         pygame.display.set_caption("Game - Main Game world screen")
 
         # update player direction and movements
-        self.player.update(pressed_keys)
+        self.player.update(pressed_keys, delta_time)
 
         # quit state
         if pressed_keys['ESCAPE']:
@@ -28,17 +28,25 @@ class GameWorld(State):
             new_state.enter_state()
         
         # player movement
-        if pressed_keys['UP'] or pressed_keys['DOWN']:
-            self.player.move_y(delta_time)
-        if pressed_keys['RIGHT'] or pressed_keys['LEFT']:
-            self.player.move_x(delta_time)
+        # if pressed_keys['UP'] or pressed_keys['DOWN']:
+        #     self.player.move_y(delta_time)
+        # if pressed_keys['RIGHT'] or pressed_keys['LEFT']:
+        #     self.player.move_x(delta_time)
+
+
+        # collisions (im gonna cry this shit is so fucking hard)
+
+        
+
+
+
 
     def render(self, canvas: pygame.Surface) -> None:
         canvas.fill(color=(0, 255, 0))
 
         self.level.render(canvas)
 
-        self.game.debug(self.player.rect.center, canvas, pos=(500, 50))
+        self.game.debug(self.player.rect.topleft, canvas, pos=(10, 50))
 
         # render the player
         self.player.render(canvas)        
