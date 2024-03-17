@@ -46,8 +46,7 @@ class GameWorld(State):
 
         self.level.render(canvas)
 
-        self.game.debug(self.player.position, canvas, pos=(500, 50))
-        self.game.debug(self.player.rect.topleft, canvas, pos=(500, 80))
+        self.game.debug(self.player.rect.topleft, canvas, pos=(10, 50))
 
         # render the player
         self.player.render(canvas)        

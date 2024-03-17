@@ -15,15 +15,17 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2(0, 0)
         self.velocity = pygame.math.Vector2(0, 0)
         self.momentum = pygame.math.Vector2(0, 0)
-        self.friction = .8
+        self.friction = .9
 
         # default values are overwrite by each character
         self.image = pygame.Surface(size=(settings.TILE_SIZE, settings.TILE_SIZE    ))
         self.image.fill(color=(255, 0, 0))
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
+        self.prev_rect = self.rect.copy()
 
     def update(self, pressed_keys: dict[str, bool], dt: float) -> None:
+        self.prev_rect = self.rect.copy()
         self.get_direction(pressed_keys)
 
         self.move_x(dt)
@@ -88,29 +90,33 @@ class Player(pygame.sprite.Sprite):
         collided = pygame.sprite.spritecollide(self, self.game.stack[-1].level.tiles, False)
 
         if collided:
-            if self.direction.x == 1:
-                self.rect.right = collided[0].rect.left
-                self.game.pressed_keys['RIGHT'] = False
-            elif self.direction.x == -1:
-                self.rect.left = collided[0].rect.right
-                self.game.pressed_keys['LEFT'] = False
+            for tile in collided:
+                # from the left                
+                if self.rect.right >= tile.rect.left and self.prev_rect.right <= tile.prev_rect.left:
+                    self.rect.right = tile.rect.left
+                    self.position.x = self.rect.x
+                # comming from the right
+                elif self.rect.left <= tile.rect.right and self.prev_rect.left >= tile.prev_rect.right:
+                    self.rect.left = tile.rect.right
+                    self.position.x = self.rect.x
 
-            self.position.xy = self.rect.topleft
-            self.velocity.xy = (0, 0)
+            self.velocity.x = 0
 
     def collide_y(self):
         # player is from gameworld state, so here the stack is always gameworld.
         collided = pygame.sprite.spritecollide(self, self.game.stack[-1].level.tiles, False)
 
         if collided:
-            if self.direction.y == 1:
-                self.rect.bottom = collided[0].rect.top
-                self.game.pressed_keys['DOWN'] = False
-            elif self.direction.y == -1:
-                self.rect.top = collided[0].rect.bottom
-                self.game.pressed_keys['UP'] = False
+            for tile in collided:
+                # comming from the top
+                if self.rect.bottom >= tile.rect.top and self.prev_rect.bottom <= tile.prev_rect.top:
+                    self.rect.bottom = tile.rect.top
+                    self.position.y = self.rect.y
+                # from the bottom
+                elif self.rect.top <= tile.rect.bottom and self.prev_rect.top >= tile.prev_rect.bottom:
+                    self.rect.top = tile.rect.bottom
+                    self.position.y = self.rect.y
 
-            self.position.xy = self.rect.topleft
             self.velocity.xy = (0, 0)
 
     def render(self, canvas: pygame.Surface) -> None:

@@ -120,7 +120,7 @@ class Game:
         	self.framerate_moyenne = self.fps_sum/settings.FPS
         	self.fps_sum = 0
         	self.counter = 0
-        self.debug(f'FPS : {round(self.framerate_moyenne)}', self.screen, pos=(500, 10))
+        self.debug(f'FPS : {round(self.framerate_moyenne)}', self.screen, pos=(10, 10))
 
         # update the screen
         pygame.display.flip()
