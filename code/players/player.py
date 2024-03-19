@@ -100,7 +100,6 @@ class Player(pygame.sprite.Sprite):
             for tile in collided:
                 # from the left                
                 if self.rect.right >= tile.rect.left and self.prev_rect.right <= tile.prev_rect.left:
-                    print(tile.prev_rect.x, self.rect.x)
                     self.rect.right = tile.rect.left
                     self.position.x = self.rect.x
                 # comming from the right
@@ -125,7 +124,7 @@ class Player(pygame.sprite.Sprite):
                     self.rect.top = tile.rect.bottom
                     self.position.y = self.rect.y
 
-            self.velocity.xy = (0, 0)
+            self.velocity.y = 0
 
     def render(self, canvas: pygame.Surface) -> None:
         canvas.blit(source=self.image, dest=self.rect.topleft)
