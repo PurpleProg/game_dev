@@ -7,8 +7,8 @@ from states.state import State
 class Game:
     def __init__(self) -> None:
         pygame.init()
-        self.running = True
-        self.playing = False
+        self.running: bool = True
+        self.playing: bool = False
 
         # states manager stack
         self.stack: list[State] = []
@@ -17,8 +17,8 @@ class Game:
 
         # delta time related stuff
         self.clock = pygame.time.Clock()
-        self.last_time: float = 0
-        self.delta_time: float = 0
+        self.last_time: float = .0
+        self.delta_time: float = .0
 
         # setting up the windows
         self.screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT))
@@ -26,10 +26,10 @@ class Game:
         pygame.display.set_icon(pygame.surface.Surface((10, 10)))
 
         # and the canvas
-        self.canvas = pygame.Surface(size=(settings.WIDTH, settings.HEIGHT))
+        self.canvas: pygame.Surface = pygame.Surface(size=(settings.WIDTH, settings.HEIGHT))
 
         # setting up pressed_keys
-        self.pressed_keys = {
+        self.pressed_keys: dict[str, bool] = {
             'RETURN': False,
             'ESCAPE': False,
             'UP': False,
@@ -39,9 +39,10 @@ class Game:
             'f': False,
         }
 
-        self.counter = 0
-        self.fps_sum = 0
-        self.framerate_moyenne = 0
+        # debug FPS stuff
+        self.counter: int = 0
+        self.fps_sum: int = 0
+        self.framerate_moyenne: float = 0.0
 
     def main_loop(self) -> None:
         # this is the main part of the code

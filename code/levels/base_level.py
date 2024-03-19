@@ -3,8 +3,8 @@ from tiles.tile import Tile
 
 
 class Base_level:
-	def __init__(self, game):
-		self.game = game
+	def __init__(self, gameworld):
+		self.gameworld = gameworld
 
 	def read_2d_map(self, map: list[list[int, ...]]) -> pygame.sprite.Group:
 		# read the map

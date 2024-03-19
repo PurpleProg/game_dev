@@ -4,9 +4,10 @@ import settings
 
 class Player(pygame.sprite.Sprite):
     """ parent class of all main characters """
-    def __init__(self, game,  pos: tuple[int, int]) -> None:
+    def __init__(self, game, camera,  pos: tuple[int, int]) -> None:
         super().__init__()
         self.game = game
+        self.camera = camera
 
         # movement vars
         self.position = pygame.math.Vector2(pos)
@@ -26,13 +27,19 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, pressed_keys: dict[str, bool], dt: float) -> None:
         self.prev_rect = self.rect.copy()
+
         self.get_direction(pressed_keys)
+
+        # for scrolling
+        self.position += self.camera.offset_float
 
         self.move_x(dt)
         self.collide_x()
+        self.camera.scroll_x(self)
 
         self.move_y(dt)
         self.collide_y()
+        self.camera.scroll_y(self)
 
     def get_direction(self, pressed_keys: dict[str, bool]) -> None:
         if pressed_keys['UP']:
@@ -87,7 +94,7 @@ class Player(pygame.sprite.Sprite):
 
     def collide_x(self):
         # player is from gameworld state, so here the stack is always gameworld.
-        collided = pygame.sprite.spritecollide(self, self.game.stack[-1].level.tiles, False)
+        collided = pygame.sprite.spritecollide(self, self.game.stack[-1].level.tiles, dokill=False)
 
         if collided:
             for tile in collided:
@@ -117,7 +124,7 @@ class Player(pygame.sprite.Sprite):
                     self.rect.top = tile.rect.bottom
                     self.position.y = self.rect.y
 
-            self.velocity.xy = (0, 0)
+            self.velocity.y = 0
 
     def render(self, canvas: pygame.Surface) -> None:
         canvas.blit(source=self.image, dest=self.rect.topleft)
