@@ -29,7 +29,7 @@ class Game:
         self.canvas = pygame.Surface(size=(settings.WIDTH, settings.HEIGHT))
 
         # setting up pressed_keys
-        self.pressed_keys = {
+        self.pressed_keys: dict[str, bool] = {
             'RETURN': False,
             'ESCAPE': False,
             'UP': False,
@@ -41,7 +41,7 @@ class Game:
 
         self.counter = 0
         self.fps_sum = 0
-        self.framerate_moyenne = 0
+        self.framerate_moyenne: float = 0.0
 
     def main_loop(self) -> None:
         # this is the main part of the code

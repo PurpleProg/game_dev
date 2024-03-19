@@ -20,11 +20,8 @@ class GameWorld(State):
         # this is done every frame (=not good for perf), pls fix it
         pygame.display.set_caption("Game - Main Game world screen")
 
-        # update player direction and movements
+        # update player direction and movements + camera scroll
         self.player.update(pressed_keys, delta_time)
-
-        # update the scroll variables
-        self.camera.scroll(self.player)
 
         # update tiles position
         self.level.update()

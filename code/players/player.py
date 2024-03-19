@@ -35,9 +35,11 @@ class Player(pygame.sprite.Sprite):
 
         self.move_x(dt)
         self.collide_x()
+        self.camera.scroll_x(self)
 
         self.move_y(dt)
         self.collide_y()
+        self.camera.scroll_y(self)
 
     def get_direction(self, pressed_keys: dict[str, bool]) -> None:
         if pressed_keys['UP']:
@@ -92,12 +94,13 @@ class Player(pygame.sprite.Sprite):
 
     def collide_x(self):
         # player is from gameworld state, so here the stack is always gameworld.
-        collided = pygame.sprite.spritecollide(self, self.game.stack[-1].level.tiles, False)
+        collided = pygame.sprite.spritecollide(self, self.game.stack[-1].level.tiles, dokill=False)
 
         if collided:
             for tile in collided:
                 # from the left                
                 if self.rect.right >= tile.rect.left and self.prev_rect.right <= tile.prev_rect.left:
+                    print(tile.prev_rect.x, self.rect.x)
                     self.rect.right = tile.rect.left
                     self.position.x = self.rect.x
                 # comming from the right
