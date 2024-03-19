@@ -4,9 +4,10 @@ import settings
 
 class Player(pygame.sprite.Sprite):
     """ parent class of all main characters """
-    def __init__(self, game,  pos: tuple[int, int]) -> None:
+    def __init__(self, game, camera,  pos: tuple[int, int]) -> None:
         super().__init__()
         self.game = game
+        self.camera = camera
 
         # movement vars
         self.position = pygame.math.Vector2(pos)
@@ -26,7 +27,11 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, pressed_keys: dict[str, bool], dt: float) -> None:
         self.prev_rect = self.rect.copy()
+
         self.get_direction(pressed_keys)
+
+        # for scrolling
+        self.position += self.camera.offset_float
 
         self.move_x(dt)
         self.collide_x()

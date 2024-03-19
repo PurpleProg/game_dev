@@ -4,9 +4,10 @@ from players.player import Player
 
 
 class Test_player(Player):
-	def __init__(self, game, pos: tuple[int, int]) -> None:
-		super().__init__(game, pos)
+	def __init__(self, game, camera, pos: tuple[int, int]) -> None:
+		super().__init__(game, camera, pos)
 		self.game = game
+		self.camera = camera
 
 		# stats de base
 		self.speed *= 1.1   # overrite plarent class sefault speed 
