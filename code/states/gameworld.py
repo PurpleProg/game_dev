@@ -12,7 +12,7 @@ class GameWorld(State):
         super().__init__(game)
         self.game = game
         self.camera = Camera()
-        self.player = Test_player(self.game, self.camera, pos=(settings.WIDTH/2, settings.HEIGHT/2))
+        self.player = Test_player(self.game, self.camera, pos=(settings.WIDTH/2, settings.HEIGHT*2))
         self.level = Level_1(self, self.camera)
 
     def update(self, delta_time: float, pressed_keys: dict[str,  bool]) -> None:

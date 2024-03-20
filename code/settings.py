@@ -1,7 +1,7 @@
 WIDTH, HEIGHT = 1024, 512
 
-MIN_X, MIN_Y = 200, 100
-MAX_X, MAX_Y = 800, 400
+MIN_X, MAX_X = WIDTH*.4, WIDTH*.6
+MIN_Y, MAX_Y = HEIGHT*.4, HEIGHT*.6
 
 FPS = 120
 FIXED_FPS = 60  # NEVER change that value otherwise the framerate independence breaks

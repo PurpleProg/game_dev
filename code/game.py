@@ -39,10 +39,11 @@ class Game:
             'f': False,
         }
 
-        # debug FPS stuff
-        self.counter: int = 0
-        self.fps_sum: int = 0
-        self.framerate_moyenne: float = 0.0
+        # debug fps
+        self.counter = 0
+        self.sum = 0
+        self.debugged_fps = 0
+
 
     def main_loop(self) -> None:
         # this is the main part of the code
@@ -102,10 +103,9 @@ class Game:
         # run the update fonction of the last state of the stack
         self.stack[-1].update(self.delta_time, self.pressed_keys)
 
-        # debug framerate
+        # change framerate
         if self.pressed_keys['f']:
             settings.FPS = 10 if settings.FPS == 60 else 60
-            # self.reset_pressed_keys()
             self.pressed_keys['f'] = False
 
     def render(self) -> None:
@@ -114,14 +114,14 @@ class Game:
         self.screen.blit(self.canvas, dest=(0, 0))
 
         # debug franerate
-        framerate = 1/self.delta_time
-        self.fps_sum += framerate
+        self.sum += 1/self.delta_time
         self.counter += 1
-        if self.counter == settings.FPS:
-        	self.framerate_moyenne = self.fps_sum/settings.FPS
-        	self.fps_sum = 0
+        if self.counter >= settings.FPS:
+        	self.debugged_fps = round(self.sum/settings.FPS)
         	self.counter = 0
-        self.debug(f'FPS : {round(self.framerate_moyenne)}', self.screen, pos=(10, 10))
+        	self.sum = 0
+        	print(self.sum/settings.FPS)
+        self.debug(f'FPS : {self.debugged_fps}', self.screen, pos=(10, 10))
 
         # update the screen
         pygame.display.flip()
