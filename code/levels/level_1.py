@@ -17,11 +17,11 @@ class Level_1(Base_level):
 	def generate_map(self) -> list[list[int]]:
 		map: list[list[int]] = []
 
-		for row in range(int(settings.HEIGHT/settings.TILE_SIZE)):
+		for row in range(int(settings.HEIGHT*3/settings.TILE_SIZE)):
 			map.append([])
-			for col in range(int(settings.WIDTH/settings.TILE_SIZE)):
+			for col in range(int(settings.WIDTH*3/settings.TILE_SIZE)):
 				map[row].append([])
-				if random.randint(1, 100) == 1:
+				if random.randint(1, 50) == 1:
 					map[row][col] = 1
 				else:
 					map[row][col] = 0

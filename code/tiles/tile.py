@@ -20,5 +20,4 @@ class Tile(pygame.sprite.Sprite):
 		self.prev_rect = self.rect.copy()
 
 		self.pos += camera.offset_int
-
 		self.rect.x, self.rect.y = int(self.pos.x), int(self.pos.y)

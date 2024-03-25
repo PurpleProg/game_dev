@@ -12,7 +12,8 @@ class GameWorld(State):
         super().__init__(game)
         self.game = game
         self.camera = Camera()
-        self.player = Test_player(self.game, self.camera, pos=(settings.WIDTH/2, settings.HEIGHT*2))
+        # self.player = Test_player(self.game, self.camera, pos=(settings.WIDTH/2, settings.HEIGHT/2))
+        self.player = Test_player(self.game, self.camera, pos=(0, 0))
         self.level = Level_1(self, self.camera)
 
     def update(self, delta_time: float, pressed_keys: dict[str,  bool]) -> None:
@@ -35,6 +36,7 @@ class GameWorld(State):
     def render(self, canvas: pygame.Surface) -> None:
         canvas.fill(color=(0, 255, 0))
 
+        # debug posision on screen (possible feature ?)
         self.game.debug(self.player.rect.topleft, canvas, pos=(10, 50))
 
         # render the map

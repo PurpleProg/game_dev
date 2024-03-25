@@ -120,7 +120,6 @@ class Game:
         	self.debugged_fps = round(self.sum/settings.FPS)
         	self.counter = 0
         	self.sum = 0
-        	print(self.sum/settings.FPS)
         self.debug(f'FPS : {self.debugged_fps}', self.screen, pos=(10, 10))
 
         # update the screen

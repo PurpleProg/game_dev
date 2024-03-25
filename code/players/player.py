@@ -12,14 +12,13 @@ class Player(pygame.sprite.Sprite):
         # movement vars
         self.position = pygame.math.Vector2(pos)
         self.speed = pygame.Vector2(settings.SPEED, settings.SPEED)
-        self.acceleration = pygame.math.Vector2(1.05, .4)
+        self.acceleration = pygame.math.Vector2(settings.SPEED, .01)
         self.direction = pygame.math.Vector2(0, 0)
         self.velocity = pygame.math.Vector2(0, 0)
-        self.momentum = pygame.math.Vector2(0, 0)
-        self.friction = .9
+        self.friction = .94
 
         # default values are overwrite by each character
-        self.image = pygame.Surface(size=(settings.TILE_SIZE, settings.TILE_SIZE    ))
+        self.image = pygame.Surface(size=(settings.TILE_SIZE, settings.TILE_SIZE))
         self.image.fill(color=(255, 0, 0))
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
@@ -30,53 +29,52 @@ class Player(pygame.sprite.Sprite):
 
         self.get_direction(pressed_keys)
 
-        # for scrolling
-        self.position += self.camera.offset_float
-
         self.move_x(dt)
-        self.collide_x()
         self.camera.scroll_x(self)
+        self.collide_x()
 
         self.move_y(dt)
-        self.collide_y()
         self.camera.scroll_y(self)
+        self.collide_y()
+
+        # scrolling
+        self.position += self.camera.offset_float
+        self.rect.x, self.rect.y = int(self.position.x), int(self.position.y)
 
     def get_direction(self, pressed_keys: dict[str, bool]) -> None:
         if pressed_keys['UP']:
             self.direction.y = -1
-            self.momentum.y = -self.acceleration.y
         elif pressed_keys['DOWN']:
             self.direction.y = 1
-            self.momentum.y = self.acceleration.y
         else:
             self.direction.y = 0
-            self.momentum.y = 0
 
         if pressed_keys['RIGHT']:
             self.direction.x = 1
-            self.momentum.x = self.acceleration.x
         elif pressed_keys['LEFT']:
             self.direction.x = -1
-            self.momentum.x = -self.acceleration.x
         else:
             self.direction.x = 0
-            self.momentum.x = 0
 
         # fix diagonal movement
         if self.direction.length() > 1:
             self.direction = self.direction.normalize()
 
     def move_x(self, dt: float) -> None:
-        self.velocity.x += self.speed.x * self.direction.x + self.momentum.x
+        # self.velocity.x += self.speed.x * self.direction.x
+        self.velocity.x += self.acceleration.x * self.direction.x
         self.velocity.x *= self.friction
+        print(self.velocity.x)
         self.limit_x_vel()
+        # update pos and rect
         self.position.x += self.velocity.x * dt
         self.rect.x = self.position.x
 
     def move_y(self, dt: float) -> None:
-        self.velocity.y += self.speed.y * self.direction.y + self.momentum.y
+        self.velocity.y += self.speed.y * self.direction.y + self.acceleration.y * self.direction.y
         self.velocity.y *= self.friction
         self.limit_y_vel()
+        # update rect and pos
         self.position.y += self.velocity.y * dt
         self.rect.y = self.position.y
 
