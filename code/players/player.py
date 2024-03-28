@@ -14,7 +14,7 @@ class Player(pygame.sprite.Sprite):
         self.speed = pygame.Vector2(settings.SPEED, settings.SPEED)
         # kinematics vectors
         self.acceleration = pygame.math.Vector2(0, 0)
-        self.ACCELERATION = pygame.math.Vector2(1, 1)
+        self.ACCELERATION = pygame.math.Vector2(settings.FPS*1, settings.FPS*1)
         self.direction = pygame.math.Vector2(0, 0)
         self.velocity = pygame.math.Vector2(0, 0)
         self.friction = .20
@@ -29,7 +29,7 @@ class Player(pygame.sprite.Sprite):
     def update(self, pressed_keys: dict[str, bool], dt: float) -> None:
         self.prev_rect = self.rect.copy()
 
-        self.get_direction(pressed_keys)
+        self.get_direction(dt, pressed_keys)
 
         self.move_x(dt)
         self.camera.scroll_x(self)
@@ -43,7 +43,7 @@ class Player(pygame.sprite.Sprite):
         self.position += self.camera.offset_float
         self.rect.x, self.rect.y = self.position.x, self.position.y
 
-    def get_direction(self, pressed_keys: dict[str, bool]) -> None:
+    def get_direction(self, dt: float, pressed_keys: dict[str, bool]) -> None:
         if pressed_keys['UP']:
             self.direction.y = -1
         elif pressed_keys['DOWN']:
@@ -62,15 +62,15 @@ class Player(pygame.sprite.Sprite):
         if self.direction.length() > 1:
             self.direction = self.direction.normalize()
 
-        self.acceleration.x = self.direction.x * self.ACCELERATION.x
-        self.acceleration.y = self.direction.y * self.ACCELERATION.y
+        self.acceleration.x = self.direction.x * self.ACCELERATION.x * dt
+        self.acceleration.y = self.direction.y * self.ACCELERATION.y * dt
 
     def move_x(self, dt: float) -> None:
         # update kinetics vectors
         self.acceleration.x -= self.velocity.x * self.friction
         self.velocity.x += self.acceleration.x
 
-        # limit velocity becoming 1.98754e-70
+        # avoid velocity get too close to 0
         self.velocity.x = 0 if self.velocity.x < 0.01 and self.velocity.x > -0.01 else self.velocity.x
 
         # change player position
